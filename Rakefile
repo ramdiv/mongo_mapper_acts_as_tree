@@ -4,14 +4,15 @@ require 'rake'
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
-    gem.name = "mongo_mapper_acts_as_tree"
-    gem.summary = %Q{TODO: one-line summary of your gem}
-    gem.description = %Q{TODO: longer description of your gem}
+    gem.name = "ramdiv-mongo_mapper_acts_as_tree"
+    gem.summary = %Q{ActsAsTree plugin for MongoMapper}
+    gem.description = %Q{Port of the old, venerable ActsAsTree with a bit of a twist}
     gem.email = "jakob.vidmar@gmail.com"
     gem.homepage = "http://github.com/ramdiv/mongo_mapper_acts_as_tree"
     gem.authors = ["Jakob Vidmar"]
-    gem.add_development_dependency "thoughtbot-shoulda", ">= 0"
-    # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
+    gem.add_dependency("mongo_mapper", ">= 0.6.8")
+    
+    gem.add_development_dependency "shoulda", ">=2.10.2"
   end
   Jeweler::GemcutterTasks.new
 rescue LoadError

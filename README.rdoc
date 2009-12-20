@@ -1,7 +1,35 @@
-= mongo_mapper_acts_as_tree
+= mongo_mapper-acts_as_tree
 
-Description goes here.
+This is an implementation of a tree structure for MongoMapper. 
 
+== Installation
+
+Install as gem
+
+  gem install ramdiv-mongo_mapper_acts_as_tree
+  
+== Usage
+
+Enable the tree functionality by declaring acts_as_tree on your model
+
+  class Category
+    include MongoMapper::Document
+    include MongoMapper::Acts::Tree
+  
+    key :name, String
+  
+    acts_as_tree
+  end
+
+The method accepts :parent_id_field, :path_field, :depth_field, :order as a hash,
+:parent_id_field, :path_field, :depth_field => override the default field names
+:order => control the order (format "_field-name_ _[asc|desc]_")
+
+Check the test_tree.rb for examples.
+
+== !WARNING!
+
+This is not production-ready code. Bugs are to be expected.
 == Note on Patches/Pull Requests
  
 * Fork the project.
