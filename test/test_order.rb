@@ -17,8 +17,8 @@ class TestMongomapperActsAsTree < Test::Unit::TestCase
       
       assert_equal @root_1.children, [@child_1, @child_3, @child_2]
   
-      assert_equal @root_1.descendents, [@child_1, @child_2_1, @child_3, @child_2]
-      assert_equal @root_1.self_and_descendents, [@root_1, @child_1, @child_2_1, @child_3, @child_2]
+      assert_equal @root_1.descendants, [@child_1, @child_2_1, @child_3, @child_2]
+      assert_equal @root_1.self_and_descendants, [@root_1, @child_1, @child_2_1, @child_3, @child_2]
       
       assert_equal @child_2.siblings, [@child_1, @child_3]
       assert_equal @child_2.self_and_siblings, [@child_1, @child_3, @child_2]

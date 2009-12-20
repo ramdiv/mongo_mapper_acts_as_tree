@@ -51,13 +51,13 @@ class TestMongomapperActsAsTree < Test::Unit::TestCase
         assert eql_arrays?(@root_1.children, [@child_1, @child_2, @child_3])
       end
       
-      should "have descendents" do
-        assert eql_arrays?(@root_1.descendents, [@child_1, @child_2, @child_3, @child_2_1])
-        assert eql_arrays?(@child_2.descendents, [@child_2_1])
-        assert @child_2_1.descendents.empty?
-        assert eql_arrays?(@root_1.self_and_descendents, [@root_1, @child_1, @child_2, @child_3, @child_2_1])
-        assert eql_arrays?(@child_2.self_and_descendents, [@child_2, @child_2_1])
-        assert eql_arrays?(@child_2_1.self_and_descendents, [@child_2_1])
+      should "have descendants" do
+        assert eql_arrays?(@root_1.descendants, [@child_1, @child_2, @child_3, @child_2_1])
+        assert eql_arrays?(@child_2.descendants, [@child_2_1])
+        assert @child_2_1.descendants.empty?
+        assert eql_arrays?(@root_1.self_and_descendants, [@root_1, @child_1, @child_2, @child_3, @child_2_1])
+        assert eql_arrays?(@child_2.self_and_descendants, [@child_2, @child_2_1])
+        assert eql_arrays?(@child_2_1.self_and_descendants, [@child_2_1])
       end
       
       should "be able to tell if ancestor" do
@@ -70,7 +70,7 @@ class TestMongomapperActsAsTree < Test::Unit::TestCase
         assert @child_2.is_or_is_ancestor_of?(@child_2)
       end
       
-      should "be able to tell if descendent" do
+      should "be able to tell if descendant" do
         assert !@root_1.is_descendant_of?(@child_1)
         assert @child_1.is_descendant_of?(@root_1)
         assert !@child_2.is_descendant_of?(@child_2)
@@ -98,7 +98,7 @@ class TestMongomapperActsAsTree < Test::Unit::TestCase
           assert @child_2.is_or_is_ancestor_of?(@child_3)
           assert @child_3.is_or_is_descendant_of?(@child_2)
           assert @child_2.children.include?(@child_3)
-          assert @child_2.descendents.include?(@child_3)
+          assert @child_2.descendants.include?(@child_3)
           assert @child_2_1.is_or_is_sibling_of?(@child_3)
           assert_equal 2, @child_3.depth
         end
@@ -108,14 +108,14 @@ class TestMongomapperActsAsTree < Test::Unit::TestCase
           
           assert !@root_2.is_or_is_ancestor_of?(@child_2_1)
           assert !@child_2_1.is_or_is_descendant_of?(@root_2)
-          assert !@root_2.descendents.include?(@child_2_1)
+          assert !@root_2.descendants.include?(@child_2_1)
           
           @child_2.save
           @child_2_1.reload
     
           assert @root_2.is_or_is_ancestor_of?(@child_2_1)
           assert @child_2_1.is_or_is_descendant_of?(@root_2)
-          assert @root_2.descendents.include?(@child_2_1)
+          assert @root_2.descendants.include?(@child_2_1)
         end
         
         should "check agains cyclic graph" do
@@ -124,7 +124,7 @@ class TestMongomapperActsAsTree < Test::Unit::TestCase
         end
       end
       
-      should "destroy descendents when destroyed" do
+      should "destroy descendants when destroyed" do
         @child_2.destroy
         assert_nil Category.find(@child_2_1._id)
       end

@@ -52,7 +52,7 @@ module MongoMapper
         def parent=(var)
           var = self.find(var) if var.is_a? String
           
-          if self.descendents.include? var
+          if self.descendants.include? var
             @_cyclic = true
           else
             @_parent = var
@@ -110,13 +110,13 @@ module MongoMapper
           self.class.all(parent_id_field => self._id.to_s, :order => tree_order)
         end
         
-        def descendents
+        def descendants
           return [] if new_record?
           self.class.all(path_field => self._id, :order => tree_order)
         end
         
-        def self_and_descendents
-          [self] + self.descendents
+        def self_and_descendants
+          [self] + self.descendants
         end
         
         def is_ancestor_of?(other)
@@ -155,7 +155,7 @@ module MongoMapper
         end
         
         def destroy_descendants
-          self.class.destroy(self.descendents.map(&:_id))
+          self.class.destroy(self.descendants.map(&:_id))
         end
       end
       
