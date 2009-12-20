@@ -25,19 +25,20 @@ module MongoMapper
           extend Fields
           extend ClassMethods
           
-          key parent_id_field,  String
-          key path_field,       String,  :default => ""
+          key parent_id_field,  ObjectId
+          key path_field,       Array,  :default => []
           key depth_field,      Integer, :default => 0
           
           after_save      :move_children
           before_save     :will_save_tree
-          # before_destroy  :destroy_descendants
+          before_destroy  :destroy_descendants
+          ensure_index([path_field, 1])
         end
       end
       
       module ClassMethods
         def roots
-          self.find(:all, :conditions => {parent_id_field => nil}, :order => tree_order)
+          self.all(parent_id_field => nil, :order => tree_order)
         end
       end
       
@@ -67,17 +68,17 @@ module MongoMapper
         def fix_position
           if parent.nil?
             self[parent_id_field] = nil
-            self[path_field] = ""
+            self[path_field] = []
             self[depth_field] = 0
           else
-            self[parent_id_field] = parent.id
-            self[path_field] = parent[path_field] + ":" + parent.id.to_s
+            self[parent_id_field] = parent._id
+            self[path_field] = parent[path_field] + [parent._id]
             self[depth_field] = parent[depth_field] + 1
           end
         end
         
         def parent
-          @_parent or (self[parent_id_field] ? self.class.find(self[parent_id_field]) : nil)
+          @_parent or (self[parent_id_field].nil? ? nil : self.class.find(self[parent_id_field]))
         end
         
         def root?
@@ -85,12 +86,12 @@ module MongoMapper
         end
         
         def root
-          self.class.find(self[path_field].split(":")[1]) or self
+          self[path_field].first.nil? ? self : self.class.find(self[path_field].first)
         end
         
         def ancestors
           return [] if root?
-          self.class.find(self[path_field].split(":")[1..-1].collect{|i| Mongo::ObjectID.from_string(i)})
+          self.class.find(self[path_field])
         end
         
         def self_and_ancestors
@@ -98,21 +99,20 @@ module MongoMapper
         end
         
         def siblings
-          self.class.find(:all, :conditions => {:_id => {"$ne" => self._id}, parent_id_field => self[parent_id_field]}, :order => tree_order)
+          self.class.all(:_id => {"$ne" => self._id}, parent_id_field => self[parent_id_field], :order => tree_order)
         end
         
         def self_and_siblings
-          self.class.find(:all, :conditions => {parent_id_field => self[parent_id_field]}, :order => tree_order)
+          self.class.all(parent_id_field => self[parent_id_field], :order => tree_order)
         end
         
         def children
-          self.class.find(:all, :conditions => {parent_id_field => self._id.to_s}, :order => tree_order)
+          self.class.all(parent_id_field => self._id.to_s, :order => tree_order)
         end
         
         def descendents
           return [] if new_record?
-          sorting_options = tree_order.split(",").map(&:strip).map(&:split).map{|item| [item[0], ((item[1].nil? or item[1].downcase == "asc") ? "asc" : "desc")]}.flatten
-          self.class.collection.find({path_field => /#{self._id}/}, {:sort => sorting_options}).map{|i| self.class.new(i)} or []
+          self.class.all(path_field => self._id, :order => tree_order)
         end
         
         def self_and_descendents
@@ -120,7 +120,7 @@ module MongoMapper
         end
         
         def is_ancestor_of?(other)
-          !(other[path_field] =~ /#{self._id}/).nil?
+          other[path_field].include?(self._id)
         end
         
         def is_or_is_ancestor_of?(other)
@@ -128,7 +128,7 @@ module MongoMapper
         end
         
         def is_descendant_of?(other)
-          !(self[path_field] =~ /#{other._id}/).nil?
+          self[path_field].include?(other._id)
         end
         
         def is_or_is_descendant_of?(other)
@@ -152,6 +152,10 @@ module MongoMapper
             end
             @_will_move = true
           end
+        end
+        
+        def destroy_descendants
+          self.class.destroy(self.descendents.map(&:_id))
         end
       end
       

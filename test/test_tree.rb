@@ -12,10 +12,11 @@ class TestMongomapperActsAsTree < Test::Unit::TestCase
       @root_2     = Category.create(:name => "Root 2")
     end
     
+    
     should "have roots" do
       assert eql_arrays?(Category.roots, [@root_1, @root_2])
     end
-  
+      
     context "node" do
       should "have a root" do
         assert_equal @root_1.root, @root_1
@@ -111,7 +112,7 @@ class TestMongomapperActsAsTree < Test::Unit::TestCase
           
           @child_2.save
           @child_2_1.reload
-
+    
           assert @root_2.is_or_is_ancestor_of?(@child_2_1)
           assert @child_2_1.is_or_is_descendant_of?(@root_2)
           assert @root_2.descendents.include?(@child_2_1)
@@ -121,6 +122,11 @@ class TestMongomapperActsAsTree < Test::Unit::TestCase
           @root_1.parent = @child_2_1
           assert !@root_1.save
         end
+      end
+      
+      should "destroy descendents when destroyed" do
+        @child_2.destroy
+        assert_nil Category.find(@child_2_1._id)
       end
     end
     

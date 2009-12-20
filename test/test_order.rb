@@ -16,7 +16,7 @@ class TestMongomapperActsAsTree < Test::Unit::TestCase
       assert_equal OrderedCategory.roots, [@root_2, @root_1]
       
       assert_equal @root_1.children, [@child_1, @child_3, @child_2]
-
+  
       assert_equal @root_1.descendents, [@child_1, @child_2_1, @child_3, @child_2]
       assert_equal @root_1.self_and_descendents, [@root_1, @child_1, @child_2_1, @child_3, @child_2]
       
