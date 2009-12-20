@@ -24,7 +24,12 @@ Gem::Specification.new do |s|
      "Rakefile",
      "VERSION",
      "lib/mongo_mapper_acts_as_tree.rb",
-     "test/helper.rb"
+     "ramdiv-mongo_mapper_acts_as_tree.gemspec",
+     "test/helper.rb",
+     "test/models/category.rb",
+     "test/models/ordered_category.rb",
+     "test/test_order.rb",
+     "test/test_tree.rb"
   ]
   s.homepage = %q{http://github.com/ramdiv/mongo_mapper_acts_as_tree}
   s.rdoc_options = ["--charset=UTF-8"]
