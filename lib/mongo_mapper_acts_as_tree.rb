@@ -50,7 +50,7 @@ module MongoMapper
         end
       
         def parent=(var)
-          var = self.find(var) if var.is_a? String
+          var = self.class.find(var) if var.is_a? String
           
           if self.descendants.include? var
             @_cyclic = true

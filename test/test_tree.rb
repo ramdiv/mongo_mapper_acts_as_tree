@@ -12,7 +12,10 @@ class TestMongomapperActsAsTree < Test::Unit::TestCase
       @root_2     = Category.create(:name => "Root 2")
     end
     
-    
+   	should "create node from id " do
+			assert Category.create(:name => "Child 2.2", :parent => @root_1.id.to_s).parent == @root_1
+		end 
+
     should "have roots" do
       assert eql_arrays?(Category.roots, [@root_1, @root_2])
     end
