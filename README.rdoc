@@ -28,9 +28,10 @@ The method accepts :parent_id_field, :path_field, :depth_field, :order as a hash
 
 Check the test_tree.rb for examples.
 
-== !WARNING!
+== About bugs
 
-This is not production-ready code. Bugs are to be expected.
+Use it. If you find any bugs, contact me (if possible with a test case) or patch it yourself (see next section).
+
 == Note on Patches/Pull Requests
  
 * Fork the project.
