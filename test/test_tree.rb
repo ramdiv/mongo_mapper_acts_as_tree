@@ -121,7 +121,7 @@ class TestMongomapperActsAsTree < Test::Unit::TestCase
           assert @root_2.descendants.include?(@child_2_1)
         end
         
-        should "check agains cyclic graph" do
+        should "check against cyclic graph" do
           @root_1.parent = @child_2_1
           assert !@root_1.save
         end

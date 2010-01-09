@@ -30,7 +30,7 @@ module MongoMapper
           key depth_field,      Integer, :default => 0
           
           after_save      :move_children
-          before_save     :will_save_tree
+          validate        :will_save_tree
           before_destroy  :destroy_descendants
           ensure_index([path_field, 1])
         end
@@ -62,7 +62,9 @@ module MongoMapper
         end
         
         def will_save_tree
-          !@_cyclic
+          if @_cyclic
+            errors.add(:base, "Can't be children of a descendant")
+          end
         end
         
         def fix_position
