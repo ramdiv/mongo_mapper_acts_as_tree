@@ -109,7 +109,7 @@ module MongoMapper
         end
         
         def children
-          self.class.all(parent_id_field => self._id.to_s, :order => tree_order)
+          self.class.all(parent_id_field => self._id, :order => tree_order)
         end
         
         def descendants
