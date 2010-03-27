@@ -26,13 +26,12 @@ module MongoMapper
           extend ClassMethods
           
           key parent_id_field,  ObjectId
-          key path_field,       Array,  :default => []
+          key path_field,       Array,  :default => [], :index => true
           key depth_field,      Integer, :default => 0
           
           after_save      :move_children
           validate        :will_save_tree
           before_destroy  :destroy_descendants
-          ensure_index([path_field, 1])
         end
       end
       
