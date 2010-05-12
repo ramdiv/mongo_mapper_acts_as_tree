@@ -49,7 +49,7 @@ module MongoMapper
         end
       
         def parent=(var)
-          var = self.class.find(var) if var.is_a? String
+          var = search_class.find(var) if var.is_a? String
           
           if self.descendants.include? var
             @_cyclic = true
@@ -79,7 +79,7 @@ module MongoMapper
         end
         
         def parent
-          @_parent or (self[parent_id_field].nil? ? nil : self.class.find(self[parent_id_field]))
+          @_parent or (self[parent_id_field].nil? ? nil : search_class.find(self[parent_id_field]))
         end
         
         def root?
@@ -87,12 +87,12 @@ module MongoMapper
         end
         
         def root
-          self[path_field].first.nil? ? self : self.class.find(self[path_field].first)
+          self[path_field].first.nil? ? self : search_class.find(self[path_field].first)
         end
         
         def ancestors
           return [] if root?
-          self.class.find(self[path_field])
+          search_class.find(self[path_field])
         end
         
         def self_and_ancestors
@@ -100,20 +100,20 @@ module MongoMapper
         end
         
         def siblings
-          self.class.all(:_id => {"$ne" => self._id}, parent_id_field => self[parent_id_field], :order => tree_order)
+          search_class.all(:_id => {"$ne" => self._id}, parent_id_field => self[parent_id_field], :order => tree_order)
         end
         
         def self_and_siblings
-          self.class.all(parent_id_field => self[parent_id_field], :order => tree_order)
+          search_class.all(parent_id_field => self[parent_id_field], :order => tree_order)
         end
         
         def children
-          self.class.all(parent_id_field => self._id, :order => tree_order)
+          search_class.all(parent_id_field => self._id, :order => tree_order)
         end
         
         def descendants
           return [] if new_record?
-          self.class.all(path_field => self._id, :order => tree_order)
+          search_class.all(path_field => self._id, :order => tree_order)
         end
         
         def self_and_descendants
@@ -156,7 +156,7 @@ module MongoMapper
         end
         
         def destroy_descendants
-          self.class.destroy(self.descendants.map(&:_id))
+          search_class.destroy(self.descendants.map(&:_id))
         end
       end
       
@@ -175,6 +175,21 @@ module MongoMapper
         
         def tree_order
           acts_as_tree_options[:order] or ""
+        end
+        
+        # When added as an option to acts_as_tree, search class will be used as the base from which to
+        # find tree objects. This is handy should you have a tree of objects that are of different types, but
+        # might be related through single table inheritance.
+        #
+        #     acts_as_tree :search_class => Shape
+        #
+        # In the above example, you could have a working tree ofShape, Circle and Square types (assuming
+        # Circle and Square were subclasses of Shape). If you want to do the same thing and you don't provide
+        # search_class, nesting mixed types will not work.
+        #
+        # The default is +self.class+
+        def search_class
+          acts_as_tree_options[:search_class] or self.class
         end
       end
     end
