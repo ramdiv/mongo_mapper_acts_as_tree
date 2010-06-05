@@ -9,11 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Jakob Vidmar"]
-<<<<<<< HEAD
-  s.date = %q{2010-03-27}
-=======
   s.date = %q{2010-05-12}
->>>>>>> b8edec0406aa5ee7c841c1a11db188a93b013146
   s.description = %q{Port of the old, venerable ActsAsTree with a bit of a twist}
   s.email = %q{jakob.vidmar@gmail.com}
   s.extra_rdoc_files = [
