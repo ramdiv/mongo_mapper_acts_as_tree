@@ -9,7 +9,11 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Jakob Vidmar"]
+<<<<<<< HEAD
   s.date = %q{2010-03-27}
+=======
+  s.date = %q{2010-05-12}
+>>>>>>> b8edec0406aa5ee7c841c1a11db188a93b013146
   s.description = %q{Port of the old, venerable ActsAsTree with a bit of a twist}
   s.email = %q{jakob.vidmar@gmail.com}
   s.extra_rdoc_files = [
@@ -28,7 +32,9 @@ Gem::Specification.new do |s|
      "test/helper.rb",
      "test/models/category.rb",
      "test/models/ordered_category.rb",
+     "test/models/shapes.rb",
      "test/test_order.rb",
+     "test/test_search_class.rb",
      "test/test_tree.rb"
   ]
   s.homepage = %q{http://github.com/ramdiv/mongo_mapper_acts_as_tree}
@@ -40,7 +46,9 @@ Gem::Specification.new do |s|
     "test/helper.rb",
      "test/models/category.rb",
      "test/models/ordered_category.rb",
+     "test/models/shapes.rb",
      "test/test_order.rb",
+     "test/test_search_class.rb",
      "test/test_tree.rb"
   ]
 
