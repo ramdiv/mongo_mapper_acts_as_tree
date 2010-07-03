@@ -13,7 +13,7 @@ Dir["#{File.dirname(__FILE__)}/models/*.rb"].each {|file| require file}
 class Test::Unit::TestCase
   # Drop all collections after each test case.
   def teardown
-    MongoMapper.database.collections.each {|collection| collection.drop }
+    MongoMapper.database.collections.each {|collection| collection.drop unless collection.name =~ /(.*\.)?system\..*/  }
   end
 
   # Make sure that each test case has a teardown

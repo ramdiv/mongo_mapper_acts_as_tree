@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{ramdiv-mongo_mapper_acts_as_tree}
-  s.version = "0.0.5"
+  s.version = "0.1.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Jakob Vidmar"]
-  s.date = %q{2010-05-12}
+  s.date = %q{2010-06-05}
   s.description = %q{Port of the old, venerable ActsAsTree with a bit of a twist}
   s.email = %q{jakob.vidmar@gmail.com}
   s.extra_rdoc_files = [
