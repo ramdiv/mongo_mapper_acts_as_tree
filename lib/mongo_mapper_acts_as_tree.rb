@@ -49,6 +49,7 @@ module MongoMapper
         end
       
         def parent=(var)
+          self[parent_id_field] = nil if var.nil?   
           var = search_class.find(var) if var.is_a? String
           
           if self.descendants.include? var

@@ -125,6 +125,16 @@ class TestMongomapperActsAsTree < Test::Unit::TestCase
           @root_1.parent = @child_2_1
           assert !@root_1.save
         end
+        
+        should "be able to become root" do
+          @child_2.parent = nil
+          @child_2.save
+          @child_2.reload
+          assert_nil @child_2.parent
+          @child_2_1.reload
+          assert (@child_2_1.path == [@child_2.id])
+        end
+          
       end
       
       should "destroy descendants when destroyed" do
