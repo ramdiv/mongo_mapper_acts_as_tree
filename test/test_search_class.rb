@@ -58,11 +58,11 @@ class TestSearchScope < Test::Unit::TestCase
       circle = Circle.create(:name => "Circle", :parent => shape)
       Square.create(:name => "Square", :parent => circle)
     end
-  
+
     setup do
       @shape, @circle, @square = Shape.first, Circle.first, Square.first
     end
-  
+
     should("return circle as child of shape") { assert_equal [@circle], @shape.children }
     should("return square as child of circle") { assert_equal [@square], @circle.children }
     should("return circle as parent of square") { assert_equal @circle, @square.parent }

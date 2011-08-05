@@ -1,40 +1,36 @@
-= mongo_mapper-acts_as_tree
+= mongo_mapper_tree
 
-This is an implementation of a tree structure for MongoMapper. 
+This is an modernized version of mongo_mapper_acts_as_tree (https://github.com/ramdiv/mongo_mapper_acts_as_tree)
+In it's essence it's an implementation of a tree structure for MongoMapper, think acts as tree but for mongodb.
+
 
 == Installation
 
 Install as gem
 
-  gem install ramdiv-mongo_mapper_acts_as_tree
-  
+  gem install mongo_mapper_tree
+
 == Usage
 
 Enable the tree functionality by declaring acts_as_tree on your model
 
   class Category
     include MongoMapper::Document
-    include MongoMapper::Acts::Tree
-  
+    plugin  MongoMapper::Plugins::Tree
+
     key :name, String
-  
-    acts_as_tree
   end
 
-The method accepts :parent_id_field, :path_field, :depth_field, :order, :search_class as a hash.
+This adds class_attributes called parent_id_field, path_field, depth_field, tree_order and tree_search_class.
 
-  :parent_id_field, :path_field, :depth_field => override the default field names
-  :order => control the order (format "_field-name_ _[asc|desc]_")
-  :search_class => expects a Class that is a MongoMapper::Document to be used for search
+  parent_id_field, path_field and depth_field overrides the default field names
+  tree_order controls the order (format :field_name.[asc|desc])
+  tree_search_class expects a Class that is a MongoMapper::Document to be used for search
 
 Check test_tree.rb and test_search_class.rb for examples.
 
-== About bugs
-
-Use it. If you find any bugs, contact me (if possible with a test case) or patch it yourself (see next section).
-
 == Note on Patches/Pull Requests
- 
+
 * Fork the project.
 * Make your feature addition or bug fix.
 * Add tests for it. This is important so I don't break it in a
@@ -45,4 +41,4 @@ Use it. If you find any bugs, contact me (if possible with a test case) or patch
 
 == Copyright
 
-Copyright (c) 2009 Jakob Vidmar. See LICENSE for details.
+Copyright (c) 2011 Joel Junström. See LICENSE for details.
