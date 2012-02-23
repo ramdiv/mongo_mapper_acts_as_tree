@@ -23,13 +23,13 @@ Enable the tree functionality by declaring acts_as_tree on your model
 
 This adds class_attributes called parent_id_field, path_field, depth_field, tree_order and tree_search_class.
 
-For best performance a index on the field called path_field.
-
   parent_id_field, path_field and depth_field overrides the default field names
   tree_order controls the order (format :field_name.[asc|desc])
   tree_search_class expects a Class that is a MongoMapper::Document to be used for search
 
 Check test_tree.rb and test_search_class.rb for examples.
+
+For best performance a index on the field called path_field.
 
 == Note on Patches/Pull Requests
 
