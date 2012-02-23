@@ -29,7 +29,7 @@ This adds class_attributes called parent_id_field, path_field, depth_field, tree
 
 Check test_tree.rb and test_search_class.rb for examples.
 
-For best performance a index on the field called path_field.
+For best performance add a index on the field called path_field.
 
 == Note on Patches/Pull Requests
 
