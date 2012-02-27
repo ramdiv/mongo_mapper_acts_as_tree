@@ -1,6 +1,6 @@
 = mongo_mapper_tree
 
-This is an modernized version of mongo_mapper_acts_as_tree (https://github.com/ramdiv/mongo_mapper_acts_as_tree)
+This is an maintained version of mongo_mapper_acts_as_tree (https://github.com/ramdiv/mongo_mapper_acts_as_tree) (ie. most of the code is written by Jacob Vidmar)
 In it's essence it's an implementation of a tree structure for MongoMapper, think acts as tree but for mongodb.
 
 
@@ -43,4 +43,5 @@ For best performance add a index on the field called path_field.
 
 == Copyright
 
+Original code written by Jakob Vidmar https://github.com/ramdiv/mongo_mapper_acts_as_tree
 Copyright (c) 2011 Joel Junström. See LICENSE for details.
