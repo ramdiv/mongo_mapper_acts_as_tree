@@ -1,0 +1,5 @@
+en:
+  mongo_mapper:
+    errors:
+      messages:
+        cyclic: "Can't be children of a descendant"
