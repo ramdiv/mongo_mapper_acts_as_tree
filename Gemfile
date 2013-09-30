@@ -1,8 +1,9 @@
-source :rubygems
+source "https://rubygems.org"
 gemspec
 
-group(:development) do
-  gem 'bson_ext', '~> 1.3.0'
+group(:development, :test) do
+  gem 'bson_ext', '~> 1.9.2'
   gem 'rake'
   gem 'database_cleaner'
+  gem "minitest", "~> 5.0.8"
 end

@@ -115,7 +115,9 @@ module MongoMapper
       end
 
       def destroy_descendants
-        tree_search_class.destroy(self.descendants.map(&:_id))
+        self.descendants.each do |descendant|
+          descendant.destroy
+        end
       end
 
       included do
